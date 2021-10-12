@@ -22,8 +22,8 @@ RSpec.describe Mutations::Courses::CreateCourse do
           createCourse(input: $input) {
             course {
               name
-              description
               lecturer
+              description
               chapters {
                 name
                 units {
