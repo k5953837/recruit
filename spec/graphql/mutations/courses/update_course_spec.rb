@@ -1,19 +1,8 @@
 require 'rails_helper'
+require './spec/helpers/generator_helper'
 
 RSpec.describe Mutations::Courses::CreateCourse do
-  def generate_chapters_attributes
-    {
-      'name' => Faker::Name.name,
-      'unitsAttributes' => [generate_units_attributes]
-    }
-  end
-
-  def generate_units_attributes
-    {
-      'name' => Faker::Name.name, 'description' => Faker::Lorem.paragraph,
-      'body' => Faker::Lorem.paragraph
-    }
-  end
+  include GeneratorHelper
 
   describe '#update_course' do
     let!(:course) { create(:course) }
