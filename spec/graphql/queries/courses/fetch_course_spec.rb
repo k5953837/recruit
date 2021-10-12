@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Queries::Courses::FetchCourse do
   describe '#fetch_course' do
-    let!(:course) { create(:course_with_chapters) }
+    let!(:course) { create(:course_with_chapters_and_units) }
     let(:query) do
       <<-GQL
         query {
@@ -12,6 +12,11 @@ RSpec.describe Queries::Courses::FetchCourse do
             description
             chapters {
               name
+              units {
+                name
+                body
+                description
+              }
             }
           }
         }
@@ -28,7 +33,18 @@ RSpec.describe Queries::Courses::FetchCourse do
           'name' => course.name,
           'lecturer' => course.lecturer,
           'description' => course.description,
-          'chapters' => course.chapters.map { { 'name' => _1.name } }
+          'chapters' => course.chapters.map do |chapter|
+            {
+              'name' => chapter.name,
+              'units' => chapter.units.map do |unit|
+                {
+                  'name' => unit.name,
+                  'body' => unit.body,
+                  'description' => unit.description
+                }
+              end
+            }
+          end
         }
       )
     end
