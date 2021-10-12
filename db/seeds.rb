@@ -3,6 +3,6 @@
   Course.create(
     name: Faker::Name.name,
     lecturer: Faker::Name.name,
-    description: Faker::Lorem
+    description: Faker::Lorem.paragraph
   )
 end

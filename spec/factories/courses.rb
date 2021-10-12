@@ -11,8 +11,8 @@
 #
 FactoryBot.define do
   factory :course do
-    name { "MyString" }
-    lecturer { "MyString" }
-    description { "MyString" }
+    name { Faker::Name.name }
+    lecturer { Faker::Name.name }
+    description { Faker::Lorem.paragraph }
   end
 end
