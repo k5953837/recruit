@@ -47,3 +47,6 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'graphiql-rails', '~> 1.8'
 gem 'graphql', '~> 1.12'
 gem 'graphql-rails-generators', '~> 1.1'
+
+# Annotates Rails/ActiveRecord Models, routes, fixtures, and others based on the database schema.
+gem 'annotate', '~> 3.1'
