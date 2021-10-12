@@ -14,5 +14,16 @@ FactoryBot.define do
     name { Faker::Name.name }
     lecturer { Faker::Name.name }
     description { Faker::Lorem.paragraph }
+
+    factory :course_with_chapters do
+      transient do
+        chapters_count { 5 }
+      end
+
+      after(:create) do |course, evaluator|
+        create_list(:chapter, evaluator.chapters_count, course: course)
+        course.reload
+      end
+    end
   end
 end

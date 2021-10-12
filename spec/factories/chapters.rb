@@ -18,7 +18,7 @@
 #
 FactoryBot.define do
   factory :chapter do
-    name { "MyString" }
-    course { nil }
+    name { Faker::Name.name }
+    course
   end
 end
