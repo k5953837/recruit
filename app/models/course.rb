@@ -20,6 +20,7 @@ class Course < ApplicationRecord
 
   # Association macros
   has_many :chapters, dependent: :destroy
+  accepts_nested_attributes_for :chapters
 
   # Association through macros
 

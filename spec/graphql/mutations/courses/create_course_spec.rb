@@ -1,6 +1,20 @@
 require 'rails_helper'
 
 RSpec.describe Mutations::Courses::CreateCourse do
+  def generate_chapters_attributes
+    {
+      'name' => Faker::Name.name,
+      'unitsAttributes' => [generate_units_attributes]
+    }
+  end
+
+  def generate_units_attributes
+    {
+      'name' => Faker::Name.name, 'description' => Faker::Lorem.paragraph,
+      'body' => Faker::Lorem.paragraph
+    }
+  end
+
   describe '#create_course' do
     let(:query) do
       <<-GQL
@@ -8,8 +22,16 @@ RSpec.describe Mutations::Courses::CreateCourse do
           createCourse(input: $input) {
             course {
               name
-              lecturer
               description
+              lecturer
+              chapters {
+                name
+                units {
+                  name
+                  description
+                  body
+                }
+              }
             }
           }
         }
@@ -22,7 +44,8 @@ RSpec.describe Mutations::Courses::CreateCourse do
           'attributes' => {
             'name' => Faker::Name.name,
             'lecturer' => Faker::Name.name,
-            'description' => Faker::Lorem.paragraph
+            'description' => Faker::Lorem.paragraph,
+            'chaptersAttributes' => [generate_chapters_attributes]
           }
         }
       }
@@ -37,7 +60,10 @@ RSpec.describe Mutations::Courses::CreateCourse do
         {
           'name' => variables.dig('input', 'attributes', 'name'),
           'lecturer' => variables.dig('input', 'attributes', 'lecturer'),
-          'description' => variables.dig('input', 'attributes', 'description')
+          'description' => variables.dig('input', 'attributes', 'description'),
+          'chapters' => variables.dig('input', 'attributes', 'chaptersAttributes').map do |chapter_attribute|
+            { 'name' => chapter_attribute['name'], 'units' => chapter_attribute['unitsAttributes'] }
+          end
         }
       )
     end
